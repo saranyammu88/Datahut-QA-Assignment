@@ -1,0 +1,342 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "6860dab8-1321-421d-bce0-c41e0d52c2dd",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Unnamed: 0</th>\n",
+       "      <th>ID</th>\n",
+       "      <th>Name</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Email</th>\n",
+       "      <th>Join Date</th>\n",
+       "      <th>Salary</th>\n",
+       "      <th>Department</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0</td>\n",
+       "      <td>1e407ff9-6255-489d-a0de-34135d4f74bd</td>\n",
+       "      <td>Hunter Thomas</td>\n",
+       "      <td>25.0</td>\n",
+       "      <td>xlopez@hotmail.com</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>88552.0</td>\n",
+       "      <td>Sales</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1</td>\n",
+       "      <td>379f55b8-87d5-4739-a146-7400b78c24d1</td>\n",
+       "      <td>Jeremy Irwin</td>\n",
+       "      <td>90.0</td>\n",
+       "      <td>Jillian Jenkins</td>\n",
+       "      <td>2022-07-07</td>\n",
+       "      <td>139227.0</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2</td>\n",
+       "      <td>18261368-dfa1-47f0-afc6-bddf45926b07</td>\n",
+       "      <td>Jennifer Hammondquickly</td>\n",
+       "      <td>66.0</td>\n",
+       "      <td>jscottgreen.biz</td>\n",
+       "      <td>2023-11-21</td>\n",
+       "      <td>65550.0</td>\n",
+       "      <td>Engineering</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3</td>\n",
+       "      <td>ae7cf7cf-17cf-4c8b-9c44-4f61a9a238e5</td>\n",
+       "      <td>Sydney Taylorso</td>\n",
+       "      <td>39.0</td>\n",
+       "      <td>luke56gonzalez.com</td>\n",
+       "      <td>2021-11-05</td>\n",
+       "      <td>139932.0</td>\n",
+       "      <td>SupportJ</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>4</td>\n",
+       "      <td>14ed3e6a-e0f5-4bbe-8d93-8665267f5c90</td>\n",
+       "      <td>Julia Lee</td>\n",
+       "      <td>71.0</td>\n",
+       "      <td>figueroakayla@yahoo.com</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>143456.0</td>\n",
+       "      <td>Marketing</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Unnamed: 0                                    ID                     Name  \\\n",
+       "0           0  1e407ff9-6255-489d-a0de-34135d4f74bd            Hunter Thomas   \n",
+       "1           1  379f55b8-87d5-4739-a146-7400b78c24d1             Jeremy Irwin   \n",
+       "2           2  18261368-dfa1-47f0-afc6-bddf45926b07  Jennifer Hammondquickly   \n",
+       "3           3  ae7cf7cf-17cf-4c8b-9c44-4f61a9a238e5          Sydney Taylorso   \n",
+       "4           4  14ed3e6a-e0f5-4bbe-8d93-8665267f5c90                Julia Lee   \n",
+       "\n",
+       "    Age                    Email   Join Date    Salary   Department  \n",
+       "0  25.0       xlopez@hotmail.com         NaN   88552.0        Sales  \n",
+       "1  90.0          Jillian Jenkins  2022-07-07  139227.0          NaN  \n",
+       "2  66.0          jscottgreen.biz  2023-11-21   65550.0  Engineering  \n",
+       "3  39.0       luke56gonzalez.com  2021-11-05  139932.0     SupportJ  \n",
+       "4  71.0  figueroakayla@yahoo.com         NaN  143456.0    Marketing  "
+      ]
+     },
+     "execution_count": 50,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import re\n",
+    "import difflib\n",
+    "\n",
+    "# Correct way using raw string\n",
+    "df = pd.read_csv(r\"C:\\Users\\chell\\Downloads\\Data\\messy_data.csv\")\n",
+    "\n",
+    "# Display first 5 rows\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 76,
+   "id": "eecd7cd7-ca83-47e1-a18e-fba72aec3e7b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      " Missing values handled:\n",
+      "Unnamed: 0    0\n",
+      "ID            0\n",
+      "Name          0\n",
+      "Age           0\n",
+      "Email         0\n",
+      "Join Date     0\n",
+      "Salary        0\n",
+      "Department    0\n",
+      "dtype: int64\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Fill Age and Salary with median\n",
+    "df['Age'] = df['Age'].fillna(df['Age'].median())\n",
+    "df['Salary'] = df['Salary'].fillna(df['Salary'].median())\n",
+    "\n",
+    "# Drop rows where Name, Department, or Join Date is missing\n",
+    "df = df.dropna(subset=['Name', 'Department', 'Join Date'])\n",
+    "\n",
+    "#  Confirm missing values handled\n",
+    "print(\" Missing values handled:\")\n",
+    "print(df.isnull().sum())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 77,
+   "id": "3f79ddbe-bdb4-45e0-9051-97cd926e56e5",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      " Removed 0 duplicate rows.\n"
+     ]
+    }
+   ],
+   "source": [
+    "#  Step 2: Remove Duplicates\n",
+    "before = len(df)\n",
+    "df = df.drop_duplicates()\n",
+    "after = len(df)\n",
+    "print(f\" Removed {before - after} duplicate rows.\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 78,
+   "id": "1114e74b-b2b0-4e2a-b1ab-ba7269a0a695",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    " #  Step 3: Correct Email Formats (Valid + Professional)\n",
+    "def is_valid_email(email):\n",
+    "    if pd.isnull(email): return False\n",
+    "    pattern = r'^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$'\n",
+    "    return bool(re.match(pattern, str(email).strip()))\n",
+    "\n",
+    "personal_domains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'rediffmail.com', 'aol.com']\n",
+    "\n",
+    "def is_professional_email(email):\n",
+    "    try:\n",
+    "        domain = email.strip().split('@')[1].lower()\n",
+    "        return domain not in personal_domains\n",
+    "    except:\n",
+    "        return False\n",
+    "\n",
+    "# Clean invalid/personal emails\n",
+    "df['Email'] = df['Email'].apply(lambda x: x if is_valid_email(x) and is_professional_email(x) else np.nan)\n",
+    "df = df.dropna(subset=['Email'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 79,
+   "id": "5a56b1b5-050f-4dd4-a37c-b87f2e75deb9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#  Step 4: Clean Name Fields\n",
+    "def clean_name(name):\n",
+    "    if pd.isnull(name): return name\n",
+    "    name = re.sub(r\"(Mr\\.|Mrs\\.|Ms\\.|Dr\\.)\", \"\", str(name))  # remove titles\n",
+    "    name = re.sub(r\"[^a-zA-Z\\s]\", \"\", name)  # remove special characters/numbers\n",
+    "    return name.strip().title()\n",
+    "\n",
+    "df['Name'] = df['Name'].apply(clean_name)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 80,
+   "id": "cc9de90e-b6f3-410f-99d2-158d7c04f912",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#  Step 5: Standardise Join Date Format (YYYY-MM-DD)\n",
+    "df['Join Date'] = pd.to_datetime(df['Join Date'], errors='coerce')\n",
+    "df = df.dropna(subset=['Join Date'])  # Drop rows if date conversion failed\n",
+    "df['Join Date'] = df['Join Date'].dt.strftime('%Y-%m-%d')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 81,
+   "id": "5c410e9b-b9a9-4b9a-94cb-ab10b1b843c0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Step 6: Correct Department Names\n",
+    "def standardize_department(dept):\n",
+    "    if pd.isnull(dept): return np.nan\n",
+    "    dept = str(dept).lower().strip()\n",
+    "    if any(x in dept for x in ['hr', 'hra', 'hrc', 'hrv']):\n",
+    "        return 'HR'\n",
+    "    elif any(x in dept for x in ['eng', 'engineer', 'dev']):\n",
+    "        return 'Engineering'\n",
+    "    elif any(x in dept for x in ['market', 'mkt', 'mrkt']):\n",
+    "        return 'Marketing'\n",
+    "    elif any(x in dept for x in ['sales', 'sale']):\n",
+    "        return 'Sales'\n",
+    "    elif any(x in dept for x in ['support', 'sup']):\n",
+    "        return 'Support'\n",
+    "    else:\n",
+    "        return 'Unknown'\n",
+    "\n",
+    "df['Department'] = df['Department'].apply(standardize_department)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 82,
+   "id": "6433a70b-073d-4f55-a341-525ceb790df6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Remove non-numeric characters, convert to float\n",
+    "df['Salary'] = df['Salary'].replace('[^0-9.]', '', regex=True)\n",
+    "df['Salary'] = pd.to_numeric(df['Salary'], errors='coerce')\n",
+    "\n",
+    "# Drop rows with unreasonable salary (< 10,000 or > 1,000,000)\n",
+    "df = df[df['Salary'].between(10000, 1000000)]\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 84,
+   "id": "b5ef604b-0616-48d6-ae65-a57e097d849d",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      " Cleaned data saved successfully at: C:/Users/chell/Downloads/Data/cleaned_dataset.csv\n"
+     ]
+    }
+   ],
+   "source": [
+    "df.to_csv(\"C:/Users/chell/Downloads/Data/cleaned_dataset.csv\", index=False)\n",
+    "print(\" Cleaned data saved successfully at: C:/Users/chell/Downloads/Data/cleaned_dataset.csv\")\n",
+    " \n",
+    " \n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6ad5be23-52f0-4609-86f9-758ddc42fec3",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python [conda env:base] *",
+   "language": "python",
+   "name": "conda-base-py"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
